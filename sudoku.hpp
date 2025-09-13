@@ -108,8 +108,10 @@ class SudokuGrid {
                             min_y = y;
                             min_count = count;
                         }
+                        if (count == 1) goto end_loop;
                     }
                 }
+                end_loop:
                 if (min_count == 10) return true;
                 auto possible = possible_values[min_x][min_y];
                 if (min_count == 1) {

@@ -78,6 +78,7 @@ class SudokuGrid {
                     grid[x][y] = c - '1';
                 }
             }
+            update_all();
         }
 
         std::string to_string() {
@@ -160,7 +161,6 @@ class SudokuGrid {
         }
 
         bool solve() {
-            update_all();
             while (true) {
                 int min_x;
                 int min_y;
@@ -185,9 +185,10 @@ class SudokuGrid {
                     grid[min_x][min_y] = index;
                     update(min_x, min_y);
                 } else {
+                    auto clone = *this;
                     for (auto i = 0; i < 9; i++) {
                         if (!possible.test(i)) continue;
-                        auto clone = *this;
+                        clone = *this;
                         clone.grid[min_x][min_y] = i;
                         clone.update(min_x, min_y);
                         if (clone.solve()) {

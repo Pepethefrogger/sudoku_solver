@@ -21,14 +21,14 @@ PROFILES_DIR = profiles
 GPROF_OUT = gmon.out
 TEST_PROFILE = $(PROFILES_DIR)/test.out
 
-.PHONY: all
+.PHONY: all run test profile
 
 all: $(EXE) $(TEST_EXE)
 
 run: $(EXE) $(FLAGS)
 	./$(EXE)
 
-profile: $(GPROF_OUT) $(TEST_EXE)
+profile: test
 	gprof $(TEST_EXE) > $(TEST_PROFILE)
 
 test: $(TEST_EXE)
@@ -45,3 +45,4 @@ $(BUILD_DIR):
 
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -f $(GPROF_OUT)

@@ -19,7 +19,7 @@ TEST_EXE = $(BUILD_DIR)/test
 
 PROFILES_DIR = profiles
 GPROF_OUT = gmon.out
-TEST_PROFILE = $(PROFILES_DIR)/test.out
+TEST_PROFILE = $(PROFILES_DIR)/test_remove_values.out
 
 .PHONY: all run test profile
 

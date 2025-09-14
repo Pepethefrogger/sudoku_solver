@@ -19,7 +19,7 @@ TEST_EXE = $(BUILD_DIR)/test
 
 PROFILES_DIR = profiles
 GPROF_OUT = gmon.out
-TEST_PROFILE = $(PROFILES_DIR)/multithreading.data
+TEST_PROFILE = $(PROFILES_DIR)/multithreading_cache.data
 
 .PHONY: all run test profile
 
@@ -29,7 +29,7 @@ run: $(EXE) $(FLAGS)
 	./$(EXE)
 
 profile: $(TEST_EXE)
-	sudo perf record -e cpu-cycles,cache-references,cache-misses,branch-instructions,branch-misses -g ./$(TEST_EXE) -o $(TEST_PROFILE)
+	sudo perf record -e cpu-cycles,cache-references,cache-misses,branch-instructions,branch-misses -g -o $(TEST_PROFILE) ./$(TEST_EXE)
 
 test: $(TEST_EXE)
 	./$(TEST_EXE)

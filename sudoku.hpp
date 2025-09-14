@@ -6,8 +6,10 @@
 #include <sstream>
 
 class SudokuGrid {
-    int grid[9][9];
+    alignas(64)
+    std::array<std::array<int, 9>, 9> grid;
 
+    alignas(64)
     std::array<std::array<std::bitset<9>, 9>, 9> possible_values;
 
     std::string missing_string(std::bitset<9> b) {

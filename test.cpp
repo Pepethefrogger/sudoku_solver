@@ -28,7 +28,6 @@ std::vector<TestPair> read_sudoku_csv(std::string_view filename) {
 
 int main() {
     auto problems = read_sudoku_csv("test/sudoku.csv");
-    problems.resize(100000);
     auto i = 0;
     for (auto problem : problems) {
         auto p = std::get<0>(problem);

@@ -3,7 +3,7 @@ DEBUG ?= 1
 FLAGS = -Wall -Wextra
 ifeq ($(DEBUG), 1)
 	BUILD_DIR = debug
-	FLAGS += -g -pg -O0
+	FLAGS += -g -O0
 else
 	BUILD_DIR = release
 	FLAGS += -Ofast -flto -march=native
@@ -19,7 +19,7 @@ TEST_EXE = $(BUILD_DIR)/test
 
 PROFILES_DIR = profiles
 GPROF_OUT = gmon.out
-TEST_PROFILE = $(PROFILES_DIR)/test_remove_possibilities.out
+TEST_PROFILE = $(PROFILES_DIR)/multithreading.data
 
 .PHONY: all run test profile
 
@@ -28,8 +28,8 @@ all: $(EXE) $(TEST_EXE)
 run: $(EXE) $(FLAGS)
 	./$(EXE)
 
-profile: test
-	gprof $(TEST_EXE) > $(TEST_PROFILE)
+profile: $(TEST_EXE)
+	sudo perf record -e cpu-cycles,cache-references,cache-misses,branch-instructions,branch-misses -g ./$(TEST_EXE) -o $(TEST_PROFILE)
 
 test: $(TEST_EXE)
 	./$(TEST_EXE)

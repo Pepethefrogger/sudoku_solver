@@ -1,12 +1,11 @@
 DEBUG ?= 1
 
-FLAGS = -Wall -Wextra
+FLAGS = -g -Wall -Wextra -march=native -Ofast -ffast-math -funroll-loops -ftree-vectorize -fopt-info-vec-optimized
 ifeq ($(DEBUG), 1)
 	BUILD_DIR = debug
-	FLAGS += -g -O0
 else
 	BUILD_DIR = release
-	FLAGS += -Ofast -flto -march=native
+	FLAGS += -flto
 endif
 
 LIB = sudoku.hpp
@@ -19,7 +18,7 @@ TEST_EXE = $(BUILD_DIR)/test
 
 PROFILES_DIR = profiles
 GPROF_OUT = gmon.out
-TEST_PROFILE = $(PROFILES_DIR)/multithreading_cache.data
+TEST_PROFILE = $(PROFILES_DIR)/simd.data
 
 .PHONY: all run test profile
 

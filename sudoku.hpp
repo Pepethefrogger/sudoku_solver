@@ -7,10 +7,10 @@
 
 class SudokuGrid {
     alignas(64)
-    std::array<std::array<int, 9>, 9> grid;
+    std::array<std::array<int, 16>, 9> grid;
 
     alignas(64)
-    std::array<std::array<std::bitset<9>, 9>, 9> possible_values;
+    std::array<std::array<std::bitset<9>, 16>, 9> possible_values;
 
     std::string missing_string(std::bitset<9> b) {
         std::string s;

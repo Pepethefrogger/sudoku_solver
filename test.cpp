@@ -1,3 +1,4 @@
+#include <chrono>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -31,15 +32,16 @@ std::tuple<std::vector<std::string>, std::vector<std::string>> read_sudoku_csv(s
 int main() {
     auto challenge = read_sudoku_csv("test/sudoku.csv");
     auto problems = std::get<0>(challenge);
-    problems.resize(100000);
+    // problems.resize(100000);
     auto solutions = std::get<1>(challenge);
-    solutions.resize(100000);
+    // solutions.resize(100000);
     int n_problems = problems.size();
     int n_threads = std::thread::hardware_concurrency();
     auto solvers_per_thread = n_problems / n_threads;
 
     std::vector<std::thread> threads;
     threads.reserve(n_threads);
+    auto start = std::chrono::high_resolution_clock::now();
     for (auto i = 0; i < n_threads; i++) {
         auto start_i = i * solvers_per_thread;
         auto end_i = std::min(n_problems, (i + 1) * solvers_per_thread);
@@ -50,13 +52,15 @@ int main() {
                 if (!g.solve()) {
                     std::cout << "[ERR] Failed to solve sudoku: " << problems[j] << std::endl;
                 }
-                auto str = g.to_string();
-                if (str != solutions[j]) {
-                    std::cout << "[ERR] Sudoku: " << problems[j] << ", " << str << " doesn't match the solution: " << solutions[j] << std::endl;
+                if (!g.check(solutions[j])) {
+                    std::cout << "[ERR] Sudoku: " << problems[j] << ", " << g.to_string() << " doesn't match the solution: " << solutions[j] << std::endl;
                     g.print();
                 }
             }
         });
     }
     for (auto& t : threads) t.join();
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "Solve time: " << elapsed.count() << "s\n";
 }

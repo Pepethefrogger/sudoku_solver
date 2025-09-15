@@ -62,6 +62,17 @@ class SudokuGrid {
             }
         }
 
+        bool check(std::string_view s) {
+            for (auto y = 0; y < 9; y++) {
+                for (auto x = 0; x < 9; x++) {
+                    auto c = s[9*y + x];
+                    auto v = c - '1';
+                    if (grid[x][y] != v) return false;
+                }
+            }
+            return true;
+        }
+
         std::string to_string() {
             std::stringstream str;
             for (auto y = 0; y < 9; y++) {

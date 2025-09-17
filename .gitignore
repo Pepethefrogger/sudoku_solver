@@ -1,5 +1,5 @@
 debug
 gmon.out
 release
-test.output
+test/sudoku.csv
 profiles

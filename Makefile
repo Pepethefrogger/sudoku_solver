@@ -9,8 +9,6 @@ else
 endif
 
 LIB = sudoku.hpp
-EXE = $(BUILD_DIR)/main
-SRC = main.cpp
 
 TEST_DIR = test
 TEST_SRC = test.cpp
@@ -24,17 +22,11 @@ TEST_PROFILE = $(PROFILES_DIR)/simd.data
 
 all: $(EXE) $(TEST_EXE)
 
-run: $(EXE) $(FLAGS)
-	./$(EXE)
-
 profile: $(TEST_EXE)
 	sudo perf record -e cpu-cycles,cache-references,cache-misses,branch-instructions,branch-misses -g -o $(TEST_PROFILE) ./$(TEST_EXE)
 
 test: $(TEST_EXE)
-	./$(TEST_EXE)
-
-$(EXE): $(SRC) $(LIB) | $(BUILD_DIR)
-	g++ $(SRC) -o $(EXE) $(FLAGS)
+	./$(TEST_EXE) test/sudoku.csv
 
 $(TEST_EXE): $(TEST_SRC) $(LIB) | $(BUILD_DIR)
 	g++ $(TEST_SRC) -o $(TEST_EXE) $(FLAGS)

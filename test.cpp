@@ -29,8 +29,13 @@ std::tuple<std::vector<std::string>, std::vector<std::string>> read_sudoku_csv(s
     return std::tuple(problems, solutions);
 }
 
-int main() {
-    auto challenge = read_sudoku_csv("test/sudoku.csv");
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        std::cout << "Pass the filename as an argument" << std::endl;
+        return 1;
+    }
+    auto filename = argv[1];
+    auto challenge = read_sudoku_csv(filename);
     auto problems = std::get<0>(challenge);
     // problems.resize(100000);
     auto solutions = std::get<1>(challenge);
